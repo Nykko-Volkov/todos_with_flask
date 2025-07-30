@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+</head>
+
+
+<body style="background-color: black;">
+
+    <h1 style="text-align: center; color: aliceblue;">this is my main todo list app page</h1>
+    {{ nathan_todo }}
+
+        <ul>
+            {% for todo in nathan_todo %}
+                <li style="color:rgb(134, 134, 240)">
+                    {{ todo }}
+                    <form style="display:inline; " action="delete/{{ todo | urlencode }}" method="POST">
+                    <button>delete</button>
+                </form>
+                </li>
+
+            {% endfor %}
+
+            </ul>
+
+
+
+
+
+         <form action="/save" method="post">
+            <input type="text" name="inputfromhtml">
+            <button>submit</button>
+         </form>   
+
+</body>
+
+
+
+</html>
