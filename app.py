@@ -3,10 +3,11 @@ from db import Databases
 
 app = flask.Flask(__name__)
 decorator = app.route
-todos = ['sleep on time', 'wake up on time', 'eat properly', 'study', 'work']
+todo_db = Databases('mytodo.db')
    
 @decorator('/')
 def ind():
+    todos = todo_db.get_all()
     return flask.render_template('index.html',nathan_todo=todos)
 
 
@@ -14,13 +15,12 @@ def ind():
 @decorator('/save',methods=['post'])
 def ind2():
     data = flask.request.form['inputfromhtml']
-    todos.append(data)
+    todo_db.add(data)
     return flask.redirect('/')
 
 @decorator('/delete/<path:todo>',methods=['post'])
 def delete(todo):
-    if todo in todos:
-        todos.remove(todo)
+    todo_db.delete(todo)
     return flask.redirect('/')
 
 
