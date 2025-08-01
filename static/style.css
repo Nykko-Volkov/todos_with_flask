@@ -1,0 +1,39 @@
+body{
+    background-color: rgb(103, 103, 250);
+}
+ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+li {
+    color : rgb(255,155, 222);
+    margin:10px 0;
+    padding: 10px;
+    border-radius: 8px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+}
+
+button{
+    color: white;
+    background-color: black;
+    cursor: pointer;
+    border-radius: 10px;
+    transition: 0.2s;
+}
+button:hover {
+    background-color: blue;
+}
+
+
+h1 {
+    color:rgb(247, 141, 11);
+    text-align: center;
+    margin-bottom: 30px;
+
+}
+
+

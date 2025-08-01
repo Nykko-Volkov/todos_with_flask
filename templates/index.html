@@ -2,33 +2,31 @@
 <html>
 
 <head>
+    <link rel="stylesheet" href="{{ url_for('static' , filename='style.css')    }}">
 
 </head>
 
 
-<body style="background-color: black;">
+<body>
 
-    <h1 style="text-align: center; color: aliceblue;">this is my main todo list app page</h1>
-    {{ nathan_todo }}
+    <h1>this is my main todo list app page</h1>
+  
 
         <ul>
             {% for todo in nathan_todo %}
-                <li style="color:rgb(134, 134, 240)">
+                <li>
                     {{ todo }}
                     <form style="display:inline; " action="delete/{{ todo | urlencode }}" method="POST">
                     <button>delete</button>
                 </form>
                 </li>
 
+
             {% endfor %}
 
             </ul>
 
-
-
-
-
-         <form action="/save" method="post">
+         <form style="text-align: center;" action="/save" method="post">
             <input type="text" name="inputfromhtml">
             <button>submit</button>
          </form>   
