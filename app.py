@@ -24,7 +24,7 @@ def delete(todo):
     return flask.redirect('/')
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run()
 
 
 
