@@ -1,16 +1,18 @@
 import flask 
-from flask import Flask, render_template,request,redirect
+from flask import Flask, render_template,request,redirect, session
 from db import Databases
 
+users = {'nathan':'1234'}
+
 app = Flask(__name__)
+app.secret_key = '0009090'
 decorator = app.route
 todo_db = Databases('mytodo.db')
    
 @decorator('/')
 def ind():
     todos = todo_db.get_all()
-    return render_template('index.html',nathan_todo=todos)
-
+    return render_template('index.html',nathan_todo=todos,users=users)
 
 
 @decorator('/save',methods=['post'])
@@ -23,6 +25,28 @@ def ind2():
 def delete(todo):
     todo_db.delete(todo)
     return redirect('/')
+
+@decorator('/signup',methods = ['GET','POST'])
+def signup():
+    if request.method == "POST":
+        un = request.form['uname']
+        up = request.form['upass']
+        users[un] = up
+        redirect('/')
+    return render_template('signup.html')
+    
+
+@decorator('/signin',methods = ['GET','POST'])
+def signin():
+    if request.method == "POST":
+        un = request.form['uname']
+        up = request.form['upass']
+        if un in users:
+            if users[un] == up:
+                session['username'] = un
+                return redirect('/')
+        return '~invalid credentials'
+    return render_template('signin.html')
 
 if __name__ == "__main__":
     app.run(debug=True)
