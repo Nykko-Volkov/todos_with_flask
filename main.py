@@ -11,7 +11,7 @@ todo_db = Databases('mytodo.db')
    
 @decorator('/')
 def ind():
-    todos = todo_db.get_all()
+    todos = todo_db.get_all_posts()
     return render_template('index.html',nathan_todo=todos,users=users)
 
 
@@ -31,7 +31,7 @@ def signup():
     if request.method == "POST":
         un = request.form['uname']
         up = request.form['upass']
-        users[un] = up
+        todo_db.add_user(un,up)
         redirect('/')
     return render_template('signup.html')
     
@@ -41,11 +41,12 @@ def signin():
     if request.method == "POST":
         un = request.form['uname']
         up = request.form['upass']
-        if un in users:
-            if users[un] == up:
-                session['username'] = un
-                return redirect('/')
-        return '~invalid credentials'
+        user = todo_db.get_user(un)
+        if user:
+            if user[1] == up:
+                session['username'] = up
+       else:
+            '~username not found'
     return render_template('signin.html')
 
 if __name__ == "__main__":
