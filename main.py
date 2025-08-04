@@ -45,7 +45,7 @@ def signin():
         if user:
             if user[1] == up:
                 session['username'] = up
-       else:
+        else:
             '~username not found'
     return render_template('signin.html')
 
