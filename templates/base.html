@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <title>Todo List</title>
+</head>
+
+
+<body>
+    <header>
+        <nav>
+            <a href="/">Home</a>
+            <a href="/signup">Sign Up</a>
+            <a href="/signin">Login</a>
+            </ul>
+        </nav>
+        <br>
+    </header>
+
+
+    <main>
+        {% block content %}
+        {% endblock %}
+    </main>
+
+
+
+    <footer>
+        <p>&copy; 2023 My Todo App</p>
+        <p>Created by Nathan</p>
+    </footer>
+
+
+
+
+
+
+
+</body>
+
+
+
+
+
+</html>

@@ -1,19 +1,10 @@
-<!DOCTYPE html>
-<html>
-
-<head>
-    <link rel="stylesheet" href="{{ url_for('static' , filename='style.css')    }}">
-
-</head>
+{% extends "base.html" %}
 
 
-<body>
 
-    <h1>this is my main todo list app page</h1>
-  
-
+{% block content %}
         <ul>
-            {% for todo in nathan_todo %}
+            {% for id,todo,status,user in nathan_todo %}
                 <li>
                     {{ todo }}
                     <form style="display:inline; " action="delete/{{ todo | urlencode }}" method="POST">
@@ -31,11 +22,5 @@
             <button>submit</button>
          </form>   
 
-{{ users }}
 
-
-</body>
-
-
-
-</html>
+{% endblock %}

@@ -14,7 +14,10 @@ class Databases:
             conn.execute("""
                 CREATE TABLE IF NOT EXISTS todos (
                     id INTEGER PRIMARY KEY AUTOINCREMENT,
-                    task TEXT UNIQUE
+                    task TEXT UNIQUE,
+                    completed BOOLEAN NOT NULL DEFAULT 0,
+                    username TEXT NOT NULL,
+                    FOREIGN KEY (username) REFERENCES users(username)
                 )
             """)
             conn.execute("""
@@ -25,15 +28,15 @@ class Databases:
             """)
             
 
-    def get_all_posts(self):
+    def get_all_posts(self,user):
         with self._connect() as conn:
             cursor = conn.cursor()
-            cursor.execute("SELECT task FROM todos")
-            return [row[0] for row in cursor.fetchall()]
+            cursor.execute(f"SELECT * FROM todos WHERE username = ?", (user,))
+            return [row for row in cursor.fetchall()]
 
-    def add(self, task):
+    def add(self, task,user):
         with self._connect() as conn:
-            conn.execute("INSERT OR IGNORE INTO todos (task) VALUES (?)", (task,))
+            conn.execute("INSERT OR IGNORE INTO todos (task,username) VALUES (?,?)", (task,user,))
 
     def delete(self, task):
         with self._connect() as conn:
@@ -42,11 +45,17 @@ class Databases:
 
     def add_user(self,username,password):
         with self._connect() as conn:
-            conn.execute("INSERT INTO users (username, password) VALUES (?, ?)", (username, password))
+            conn.execute("INSERT OR ignore INTO users (username, password) VALUES (?, ?)", (username, password))
 
     def get_user(self, username):
         with self._connect() as conn:
             result = conn.execute("SELECT * FROM users WHERE username = ?", (username,))
             return result.fetchone()
+    
+    def get_all_usernames(self):
+        with self._connect() as conn:
+            cursor = conn.cursor()
+            cursor.execute("SELECT username FROM users")
+            return [row[0] for row in cursor.fetchall()]
 
     

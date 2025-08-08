@@ -37,3 +37,25 @@ h1 {
 }
 
 
+
+
+nav {
+    background-color: rgb(0, 0, 0);
+    padding: 10px;
+    text-align: center;
+    display: flex;
+    justify-content: right;
+    align-items: center;
+}
+
+nav a {
+    color: white;
+    text-decoration: none;
+    margin: 0 15px;
+}
+
+
+nav a:hover {
+    text-decoration: underline;
+    color: rgb(255, 255, 0);
+}

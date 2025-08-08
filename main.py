@@ -11,14 +11,24 @@ todo_db = Databases('mytodo.db')
    
 @decorator('/')
 def ind():
-    todos = todo_db.get_all_posts()
-    return render_template('index.html',nathan_todo=todos,users=users)
+    username = session['username']
+    
+    
+    todos = todo_db.get_all_posts(username)
+    print(todos)
+    
+    return render_template('index.html',nathan_todo=todos,users=username)
 
 
 @decorator('/save',methods=['post'])
 def ind2():
+    username =''
+    if 'username' in session:
+        username = session['username']
+    else:
+        redirect('/signin')
     data = request.form['inputfromhtml']
-    todo_db.add(data)
+    todo_db.add(data,username)
     return redirect('/')
 
 @decorator('/delete/<path:todo>',methods=['post'])
@@ -31,8 +41,14 @@ def signup():
     if request.method == "POST":
         un = request.form['uname']
         up = request.form['upass']
+        all_users = todo_db.get_user(un)
+        if un in all_users:
+            return 'Username already exists'
+
         todo_db.add_user(un,up)
-        redirect('/')
+        del session['username']
+        session['username'] = un
+        return redirect('/')
     return render_template('signup.html')
     
 
@@ -45,8 +61,9 @@ def signin():
         if user:
             if user[1] == up:
                 session['username'] = up
+                return redirect('/')
         else:
-            '~username not found'
+            'username not found'
     return render_template('signin.html')
 
 if __name__ == "__main__":
