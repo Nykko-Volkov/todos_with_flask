@@ -11,13 +11,14 @@ todo_db = Databases('mytodo.db')
    
 @decorator('/')
 def ind():
+    if 'username' not in session:
+        return redirect('/signin')
     username = session['username']
-    
-    
+
     todos = todo_db.get_all_posts(username)
     print(todos)
     
-    return render_template('index.html',nathan_todo=todos,users=username)
+    return render_template('index.html',nathan_todo=todos,user=username)
 
 
 @decorator('/save',methods=['post'])
@@ -65,6 +66,13 @@ def signin():
         else:
             'username not found'
     return render_template('signin.html')
+
+@decorator('/logout')
+def logout():
+    session.pop('username', None)
+    return redirect('/signin')
+
+
 
 if __name__ == "__main__":
     app.run(debug=True)

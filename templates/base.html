@@ -11,8 +11,13 @@
     <header>
         <nav>
             <a href="/">Home</a>
+            {% if not user %}
             <a href="/signup">Sign Up</a>
             <a href="/signin">Login</a>
+            {% else %}
+            <a href="/profile">{{ user }}</a>
+            <a href="/logout">Logout</a>
+            {% endif %}
             </ul>
         </nav>
         <br>
