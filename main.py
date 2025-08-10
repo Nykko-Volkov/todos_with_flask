@@ -42,12 +42,13 @@ def signup():
     if request.method == "POST":
         un = request.form['uname']
         up = request.form['upass']
-        all_users = todo_db.get_user(un)
+        all_users = todo_db.get_all_usernames()
         if un in all_users:
             return 'Username already exists'
 
         todo_db.add_user(un,up)
-        del session['username']
+        if 'username' in session:   
+            del session['username']
         session['username'] = un
         return redirect('/')
     return render_template('signup.html')
@@ -65,6 +66,7 @@ def signin():
                 return redirect('/')
         else:
             'username not found'
+            return redirect('/signup')
     return render_template('signin.html')
 
 @decorator('/logout')
